@@ -1,24 +1,32 @@
 package com.arithmeticservices.divisionservice.controller;
 
 import com.arithmeticservices.divisionservice.Division;
+import com.arithmeticservices.divisionservice.exception.DivideByZeroException;
 import com.arithmeticservices.divisionservice.service.DivisionService;
-import org.junit.jupiter.api.Assertions;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = DivisionController.class)
@@ -30,59 +38,46 @@ class DivisionControllerTest {
     @MockBean
     private DivisionService service;
 
-    @Test
-    @DisplayName("Initial Test")
-    void initTest() throws Exception {
-        BigDecimal leftOpd = BigDecimal.valueOf(12);
-        BigDecimal rightOpd = BigDecimal.valueOf(3);
-        Division mockDivide = new Division(leftOpd, rightOpd, leftOpd.divide(rightOpd), "Division()");
-        Mockito.when(service.divide(Mockito.any(), Mockito.any())).thenReturn(mockDivide);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd).accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    static Stream<Arguments> inputs() {
+        return Stream.of(
+                arguments(12, 3),
+                arguments(12, -3),
+                arguments(-12, -3),
+                arguments(0, 2)
+        );
+    }
+
+    @ParameterizedTest
+    @DisplayName("All Test")
+    @MethodSource("inputs")
+    void initTest(int leftOp, int rightOp) throws Exception {
+        BigDecimal leftOpd = BigDecimal.valueOf(leftOp);
+        BigDecimal rightOpd = BigDecimal.valueOf(rightOp);
+        Division division = new Division(leftOpd, rightOpd, leftOpd.divide(rightOpd), "Division(/)");
+        Mockito.when(service.divide(Mockito.any(), Mockito.any())).thenReturn(division);
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.leftOpd", is(division.getLeftOpd().intValue())))
+                .andExpect(jsonPath("$.rightOpd", is(division.getRightOpd().intValue())))
+                .andExpect(jsonPath("$.answer", is(division.getAnswer().intValue())))
+                .andExpect(jsonPath("$.operation", is(division.getOperation())))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
         System.out.println(result.getResponse().getContentAsString());
-        String expected = "{leftOpd:12,rightOpd:3,answer:4,operation:Division()}";
-        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
     }
 
     @Test
-    @DisplayName("if Both Of The Values Are Negative Answer Should Be Positive")
-    void ifBothOfTheValuesAreNegativeAnswerShouldBePositive() throws Exception {
-        BigDecimal leftOpd = BigDecimal.valueOf(-12);
-        BigDecimal rightOpd = BigDecimal.valueOf(-3);
-        Division mockDivide = new Division(leftOpd, rightOpd, leftOpd.divide(rightOpd), "Division()");
-        Mockito.when(service.divide(Mockito.any(), Mockito.any())).thenReturn(mockDivide);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd).accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        System.out.println(result.getResponse().getContentAsString());
-        String expected = "{leftOpd:-12,rightOpd:-3,answer:4,operation:Division()}";
-        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
-    }
-
-    @Test
-    @DisplayName("if One Of The Value Is Negative Answer Should Be Negative")
-    void ifOneOfTheValueIsNegativeAnswerShouldBeNegative() throws Exception {
-        BigDecimal leftOpd = BigDecimal.valueOf(12);
-        BigDecimal rightOpd = BigDecimal.valueOf(-3);
-        Division mockDivide = new Division(leftOpd, rightOpd, leftOpd.divide(rightOpd), "Division()");
-        Mockito.when(service.divide(Mockito.any(), Mockito.any())).thenReturn(mockDivide);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd).accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        System.out.println(result.getResponse().getContentAsString());
-        String expected = "{leftOpd:12,rightOpd:-3,answer:-4,operation:Division()}";
-        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
-    }
-
-    @Test
-    @DisplayName("if Numerator Is Zero Then Answer Should Be Zero")
-    void ifNumeratorIsZeroThenAnswerShouldBeZero() throws Exception {
-        BigDecimal leftOpd = BigDecimal.valueOf(0);
-        BigDecimal rightOpd = BigDecimal.valueOf(2);
-        Division mockDivide = new Division(leftOpd, rightOpd, leftOpd.divide(rightOpd), "Division()");
-        Mockito.when(service.divide(Mockito.any(), Mockito.any())).thenReturn(mockDivide);
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd).accept(MediaType.APPLICATION_JSON);
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        System.out.println(result.getResponse().getContentAsString());
-        String expected = "{leftOpd:0,rightOpd:2,answer:0,operation:Division()}";
-        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), true);
+    @DisplayName("should throw ArithmeticException if denominator is zero")
+    void shouldThrowArithmeticExceptionIfDenominatorIsZero() throws Exception {
+        BigDecimal leftOpd = BigDecimal.valueOf(2);
+        BigDecimal rightOpd = BigDecimal.valueOf(0);
+        Mockito.doThrow(DivideByZeroException.class).when(service).divide(leftOpd, rightOpd);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/arithmetic/division/{leftOpd}/{rightOpd}", leftOpd, rightOpd))
+                .andExpect(MockMvcResultMatchers.status().isNotAcceptable())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse().getContentAsString();
     }
 }
