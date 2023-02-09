@@ -22,6 +22,7 @@ public class ApiGatewayConfig {
                 .route(p -> p.path("/users/view-all").uri(JWT_SECURITY))
                 .route(p -> p.path("/users/delete/**").uri(JWT_SECURITY))
                 .route(p -> p.path("/users/update/**").uri(JWT_SECURITY))
+                .route(p -> p.path("/users/view/**").uri(JWT_SECURITY))
                 .build();
     }
 }
