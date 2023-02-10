@@ -1,9 +1,10 @@
 package com.jwtsecurity.auth;
 
 import com.jwtsecurity.config.JwtService;
-import com.jwtsecurity.entity.Role;
+import com.jwtsecurity.entity.UserRole;
 import com.jwtsecurity.entity.User;
-import com.jwtsecurity.entity.UserRepository;
+import com.jwtsecurity.exception.ResourceNotFoundException;
+import com.jwtsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +29,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(UserRole.USER)
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -39,7 +40,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = repository.findByEmail(request.getEmail()).orElseThrow();
+        var user = repository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User", "email", request.getEmail()));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

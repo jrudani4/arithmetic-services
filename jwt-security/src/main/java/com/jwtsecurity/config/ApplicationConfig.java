@@ -1,6 +1,6 @@
 package com.jwtsecurity.config;
 
-import com.jwtsecurity.entity.UserRepository;
+import com.jwtsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

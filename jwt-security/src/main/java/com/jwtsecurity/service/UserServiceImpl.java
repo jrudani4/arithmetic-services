@@ -1,7 +1,9 @@
-package com.jwtsecurity.entity;
+package com.jwtsecurity.service;
 
+import com.jwtsecurity.entity.User;
+import com.jwtsecurity.exception.ResourceNotFoundException;
+import com.jwtsecurity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user, Integer id) {
-        User existingUser = repository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User existingUser = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
@@ -36,5 +38,10 @@ public class UserServiceImpl implements UserService {
         existingUser.setRole(user.getRole());
         repository.save(existingUser);
         return existingUser;
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 }

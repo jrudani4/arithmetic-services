@@ -1,7 +1,7 @@
-package com.jwtsecurity.demo;
+package com.jwtsecurity.controller;
 
 import com.jwtsecurity.entity.User;
-import com.jwtsecurity.entity.UserService;
+import com.jwtsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,11 @@ public class UserController {
     @GetMapping("/view-all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/view/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

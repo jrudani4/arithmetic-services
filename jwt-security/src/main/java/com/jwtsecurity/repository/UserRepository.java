@@ -1,5 +1,6 @@
-package com.jwtsecurity.entity;
+package com.jwtsecurity.repository;
 
+import com.jwtsecurity.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

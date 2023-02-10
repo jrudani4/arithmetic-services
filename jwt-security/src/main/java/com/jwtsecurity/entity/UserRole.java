@@ -1,5 +1,5 @@
 package com.jwtsecurity.entity;
 
-public enum Role {
+public enum UserRole {
     USER, ADMIN
 }
