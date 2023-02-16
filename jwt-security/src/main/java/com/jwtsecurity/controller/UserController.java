@@ -27,19 +27,19 @@ public class UserController {
     @GetMapping("/view/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         log.info("inside getUserById-" + id + " Method");
-        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User user) {
         log.info("inside updateUser-" + id + " Method");
-        return new ResponseEntity<User>(userService.updateUser(user, id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(user, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable Integer id) {
         userService.deleteUser(id);
         log.info("inside deleteUserById-" + id + " Method");
-        return new ResponseEntity<String>("User deleted successfully.", HttpStatus.OK);
+        return new ResponseEntity<>("User deleted successfully.", HttpStatus.OK);
     }
 }
