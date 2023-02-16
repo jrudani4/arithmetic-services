@@ -1,6 +1,6 @@
 package com.arithmeticservices.additionservice.controller;
 
-import com.arithmeticservices.additionservice.Addition;
+import com.arithmeticservices.additionservice.bean.Addition;
 import com.arithmeticservices.additionservice.service.AdditionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

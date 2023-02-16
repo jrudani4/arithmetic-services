@@ -1,6 +1,6 @@
 package com.arithmeticservices.additionservice.controller;
 
-import com.arithmeticservices.additionservice.Addition;
+import com.arithmeticservices.additionservice.bean.Addition;
 import com.arithmeticservices.additionservice.service.AdditionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

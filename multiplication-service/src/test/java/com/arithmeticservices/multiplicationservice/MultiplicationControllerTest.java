@@ -1,5 +1,6 @@
 package com.arithmeticservices.multiplicationservice;
 
+import com.arithmeticservices.multiplicationservice.bean.Multiplication;
 import com.arithmeticservices.multiplicationservice.controller.MultiplicationController;
 import com.arithmeticservices.multiplicationservice.service.MultiplicationService;
 import com.fasterxml.jackson.databind.ObjectMapper;

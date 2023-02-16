@@ -1,6 +1,6 @@
 package com.arithmeticservices.divisionservice.service;
 
-import com.arithmeticservices.divisionservice.Division;
+import com.arithmeticservices.divisionservice.bean.Division;
 
 import java.math.BigDecimal;
 

@@ -1,6 +1,6 @@
 package com.arithmeticservices.subtractionservice.controller;
 
-import com.arithmeticservices.subtractionservice.Subtraction;
+import com.arithmeticservices.subtractionservice.bean.Subtraction;
 import com.arithmeticservices.subtractionservice.service.SubtractionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

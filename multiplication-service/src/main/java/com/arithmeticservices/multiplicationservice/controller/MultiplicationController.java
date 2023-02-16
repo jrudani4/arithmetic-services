@@ -1,6 +1,6 @@
 package com.arithmeticservices.multiplicationservice.controller;
 
-import com.arithmeticservices.multiplicationservice.Multiplication;
+import com.arithmeticservices.multiplicationservice.bean.Multiplication;
 import com.arithmeticservices.multiplicationservice.service.MultiplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

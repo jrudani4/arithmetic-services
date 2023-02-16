@@ -1,6 +1,6 @@
 package com.arithmeticservices.divisionservice.controller;
 
-import com.arithmeticservices.divisionservice.Division;
+import com.arithmeticservices.divisionservice.bean.Division;
 import com.arithmeticservices.divisionservice.service.DivisionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.arithmeticservices.subtractionservice.controller;
 
-import com.arithmeticservices.subtractionservice.Subtraction;
+import com.arithmeticservices.subtractionservice.bean.Subtraction;
 import com.arithmeticservices.subtractionservice.service.SubtractionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;

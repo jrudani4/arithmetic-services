@@ -1,6 +1,6 @@
 package com.arithmeticservices.additionservice.service;
 
-import com.arithmeticservices.additionservice.Addition;
+import com.arithmeticservices.additionservice.bean.Addition;
 
 import java.math.BigDecimal;
 

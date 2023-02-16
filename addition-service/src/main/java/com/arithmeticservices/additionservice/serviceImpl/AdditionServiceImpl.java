@@ -1,6 +1,6 @@
 package com.arithmeticservices.additionservice.serviceImpl;
 
-import com.arithmeticservices.additionservice.Addition;
+import com.arithmeticservices.additionservice.bean.Addition;
 import com.arithmeticservices.additionservice.service.AdditionService;
 import org.springframework.stereotype.Service;
 

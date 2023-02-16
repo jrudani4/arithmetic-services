@@ -1,6 +1,6 @@
 package com.arithmeticservices.subtractionservice.service;
 
-import com.arithmeticservices.subtractionservice.Subtraction;
+import com.arithmeticservices.subtractionservice.bean.Subtraction;
 
 import java.math.BigDecimal;
 

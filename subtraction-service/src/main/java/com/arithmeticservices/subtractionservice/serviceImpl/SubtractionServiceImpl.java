@@ -1,6 +1,6 @@
 package com.arithmeticservices.subtractionservice.serviceImpl;
 
-import com.arithmeticservices.subtractionservice.Subtraction;
+import com.arithmeticservices.subtractionservice.bean.Subtraction;
 import com.arithmeticservices.subtractionservice.service.SubtractionService;
 import org.springframework.stereotype.Service;
 

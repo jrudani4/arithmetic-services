@@ -1,6 +1,6 @@
 package com.arithmeticservices.divisionservice.controller;
 
-import com.arithmeticservices.divisionservice.Division;
+import com.arithmeticservices.divisionservice.bean.Division;
 import com.arithmeticservices.divisionservice.exception.DivideByZeroException;
 import com.arithmeticservices.divisionservice.service.DivisionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
