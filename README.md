@@ -1,7 +1,7 @@
 # arithmetic-services 
 
 ## Usage
-* Run all the services.
+* Run all the services to perform basic arithmetic operations.
 * Connect to the application through API-GATEWAY using Postman on port 8765.
 ## API Endpoints
 | HTTP Verbs | Endpoints | Action |
